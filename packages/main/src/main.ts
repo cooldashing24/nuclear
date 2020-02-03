@@ -13,6 +13,7 @@ import Window from './services/window';
 import Container from './utils/container';
 import LocalLibrary from './services/local-library';
 import HttpApi from './services/http';
+import LocalLibraryDb from './services/local-library/db';
 
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,6 +50,7 @@ app.on('ready', async () => {
     const trayMenu = container.get<TrayMenu>(TrayMenu);
     const window = container.get<Window>(Window);
     const discord = container.get<Discord>(Discord);
+    const localLibraryDb = container.get<LocalLibraryDb>(LocalLibraryDb);
 
     if (config.isDev()) {
       await Promise.all([
@@ -58,6 +60,7 @@ app.on('ready', async () => {
     }
 
     container.listen();
+    await localLibraryDb.connect();
     await window.load(),
     trayMenu.init();
     discord.init();
