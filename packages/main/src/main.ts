@@ -81,10 +81,7 @@ app.on('window-all-closed', async () => {
   try {
     logger.log('All windows closed, quitting');
     const store = container.get<Store>(Store);
-    const localLibrary = container.get<LocalLibrary>(LocalLibrary);
     const discord = container.get<Discord>(Discord);
-
-    await localLibrary.cleanUnusedLocalThumbnails();
 
     if (store.getOption('api.enabled')) {
       const httpApi = container.get<HttpApi>(HttpApi);
